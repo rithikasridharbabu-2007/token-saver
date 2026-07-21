@@ -1,0 +1,14 @@
+{
+  "name": "token-saver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --check index.js && node --check lib/openaiClient.js",
+    "start": "node index.js ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module"
+}
