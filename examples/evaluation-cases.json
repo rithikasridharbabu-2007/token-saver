@@ -1,0 +1,22 @@
+{
+  "cases": [
+    {
+      "id": "checkout",
+      "question": "How does checkout calculate the total?",
+      "expectedFiles": [
+        "src/checkout.js",
+        "src/pricing.js"
+      ],
+      "evidence": [
+        {
+          "file": "src/checkout.js",
+          "contains": "payments.charge"
+        },
+        {
+          "file": "src/pricing.js",
+          "contains": "Math.max(0, subtotal - discountCents)"
+        }
+      ]
+    }
+  ]
+}

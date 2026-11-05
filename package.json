@@ -1,14 +1,49 @@
 {
   "name": "token-saver",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.2.0",
+  "description": "Inspect smaller code prompts, verify retained evidence, and compare real Codex usage.",
   "main": "index.js",
-  "scripts": {
-    "test": "node --check index.js && node --check lib/openaiClient.js",
-    "start": "node index.js ."
+  "type": "module",
+  "bin": {
+    "token-saver": "./index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "module"
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test",
+    "start": "node index.js .",
+    "benchmark": "node scripts/benchmark.js",
+    "demo": "node index.js demo",
+    "evaluate": "node index.js evaluate",
+    "build:demo": "node scripts/build-demo.js"
+  },
+  "keywords": [
+    "codex",
+    "context",
+    "tokens",
+    "cli",
+    "developer-tools"
+  ],
+  "author": "Rithika Sridharbabu",
+  "license": "MIT",
+  "files": [
+    "index.js",
+    "lib/",
+    "ui/",
+    "examples/demo-project/",
+    "examples/evaluation-cases.json",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "preview.html"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rithikasridharbabu-2007/token-saver.git"
+  },
+  "dependencies": {
+    "ignore": "7.0.14",
+    "js-tiktoken": "1.0.21"
+  }
 }

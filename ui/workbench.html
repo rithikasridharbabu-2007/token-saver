@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Token Saver · Context workbench</title>
+<style>
+:root{color-scheme:light;--ink:#172124;--muted:#607078;--paper:#f4f7f6;--line:#dbe3df;--green:#137a57;--tint:#e8f5ee;--amber:#9a5d0b;--code:#15252b}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,textarea,select{font:inherit}button{cursor:pointer}button:disabled{cursor:wait;opacity:.6}
+button:focus-visible,select:focus-visible,textarea:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid #509ffa;outline-offset:3px}
+header{background:#fff;border-bottom:1px solid var(--line);padding:18px 5vw;display:flex;align-items:center;justify-content:space-between;gap:15px}.brand{font-size:19px;font-weight:760;letter-spacing:-.7px;display:flex;align-items:center;gap:11px}.mark{background:var(--green);color:white;border-radius:9px;padding:3px 10px;font-size:23px}.pill{font-size:12px;border:1px solid var(--line);padding:5px 10px;border-radius:30px;color:var(--muted)}
+main{max-width:1440px;margin:auto;padding:30px 5vw 50px}.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--green);font-weight:750}
+h1{font-size:clamp(26px,3vw,38px);letter-spacing:-1.5px;line-height:1.15;margin:9px 0 12px;max-width:740px}.intro{color:var(--muted);max-width:760px;margin:0 0 24px}.hero{display:flex;justify-content:space-between;align-items:end;gap:25px}.mode{max-width:300px;font-size:12px;color:var(--muted);background:white;border:1px solid var(--line);border-radius:12px;padding:13px;margin-bottom:24px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:14px}.query{padding:20px}.row{display:flex;gap:14px;align-items:center;flex-wrap:wrap}label{font-size:12px;font-weight:650;display:block;margin-bottom:7px}.query-grid{display:grid;grid-template-columns:1fr 230px;gap:24px}select,textarea,input{border:1px solid #cad6cf;border-radius:8px;background:#fff;color:var(--ink)}select{width:100%;padding:9px 12px}textarea{width:100%;padding:12px;resize:vertical;min-height:72px;margin-top:10px}
+.primary{background:var(--green);color:white;border:0;border-radius:8px;padding:10px 17px;font-weight:650}.secondary{background:white;border:1px solid #c7d5ce;border-radius:8px;padding:8px 13px;color:var(--ink)}
+.budget{padding-top:2px}.budget-value{font-size:31px;font-weight:750;letter-spacing:-1px}.budget small{color:var(--muted)}input[type=range]{width:100%;accent-color:var(--green);margin:14px 0}.ticks{display:flex;justify-content:space-between;color:var(--muted);font-size:11px}.query-actions{margin-top:15px;display:flex;align-items:center;justify-content:space-between;gap:15px}.status{font-size:12px;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:17px 0}.stat{padding:16px 19px}.stat .title{font-size:12px;color:var(--muted)}.stat .number{font-size:29px;letter-spacing:-1px;font-weight:750;margin:4px 0 1px}.stat .hint{font-size:11px;color:var(--muted)}.stat.good{background:var(--tint);border-color:#bcdac9}
+.workspace{display:grid;grid-template-columns:220px minmax(0,1fr) 270px;gap:15px}.files{padding:16px 10px;align-self:start}.section-label{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin:0 8px 13px;font-weight:750}
+.file{border:0;background:transparent;padding:10px;width:100%;text-align:left;border-radius:7px;display:block;margin:2px 0;font-size:12px;overflow-wrap:anywhere}.file:hover{background:#f0f5f2}.file.active{background:var(--tint);color:#0e6247;font-weight:700}.file span{display:block;font-size:10px;color:var(--muted);font-weight:400;margin-top:2px}
+.code-panel{overflow:hidden;min-height:340px}.code-head{padding:14px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;font-size:12px}.code-name{font-weight:700;overflow-wrap:anywhere}.line-label{color:var(--muted);white-space:nowrap}.reasons{font-size:11px;color:var(--muted);padding:10px 18px;background:#fbfcfb;border-bottom:1px solid var(--line)}
+pre{margin:0;background:var(--code);color:#dce9e5;padding:18px 0;overflow:auto;max-height:490px;font:12px/1.85 ui-monospace,SFMono-Regular,Consolas,monospace;tab-size:2}pre .line{display:flex;min-width:max-content;padding-right:20px}.ln{color:#768c92;min-width:46px;padding:0 12px;text-align:right;user-select:none}.source{padding-left:8px;white-space:pre}.match{background:#365a48;color:#f3fff5}
+.inspector{padding:18px;align-self:start}.inspector h2{font-size:14px;margin:0 0 8px}.inspector p{font-size:12px;color:var(--muted);margin:7px 0 15px}.evidence-list{padding:0;list-style:none;margin:0}.evidence-list li{padding:9px 0;border-bottom:1px solid #edf1ed;font-size:11px;overflow-wrap:anywhere}.yes{color:var(--green);font-weight:750}.no{color:var(--amber);font-weight:750}.inspector code{font-size:10px}.divider{height:1px;background:var(--line);margin:18px 0}.inspector button{width:100%;margin-top:8px}.chart{padding:20px;margin-top:17px}.chart-head{display:flex;justify-content:space-between;align-items:center;gap:20px}.chart h2{font-size:15px;margin:0}.chart p{font-size:12px;color:var(--muted);margin:5px 0 16px}.sweeps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.sweep{border:1px solid var(--line);border-radius:9px;padding:12px}.sweep.active{border-color:var(--green);background:#f4faf6}.sweep b{font-size:16px}.bar{height:5px;border-radius:6px;background:#e5eae7;margin:11px 0}.bar i{display:block;height:100%;background:var(--green);border-radius:6px}.sweep small{color:var(--muted);font-size:11px}
+footer{margin-top:19px;font-size:11px;color:var(--muted)}.error{background:#fff1dd;border:1px solid #edc589;color:#794709;border-radius:8px;padding:12px;margin:14px 0}#notice[hidden]{display:none}
+@media(max-width:1100px){.workspace{grid-template-columns:190px minmax(0,1fr)}.inspector{grid-column:1/-1}.hero{display:block}.mode{max-width:none}}
+@media(max-width:700px){header{padding:14px 5vw}.pill{display:none}main{padding-top:22px}.query-grid{grid-template-columns:1fr;gap:16px}.stats{grid-template-columns:repeat(2,1fr)}.workspace{grid-template-columns:1fr}.files{display:flex;flex-wrap:wrap;gap:4px}.section-label{width:100%}.file{width:auto;max-width:100%}.sweeps{grid-template-columns:1fr}.query-actions{align-items:start;flex-direction:column}.hero h1{letter-spacing:-1px}}
+</style>
+</head>
+<body>
+<header><div class="brand"><span class="mark" aria-hidden="true">↘</span>Token Saver <span class="pill">Context workbench / 1.2</span></div><span class="pill">Preview locally · Export when ready</span></header>
+<main>
+<div class="hero"><div><div class="eyebrow">Less context. Keep the evidence.</div><h1>See what your coding assistant actually needs.</h1><p class="intro">Choose a question, set a token budget, and inspect the source that survives. Check the evidence before sending your prompt.</p></div><div class="mode" id="mode-note"></div></div>
+<section class="panel query" aria-label="Build code context">
+<div class="query-grid"><div><label for="preset">Try a workflow</label><select id="preset"></select><label for="question" style="margin-top:12px">Question about your code</label><textarea id="question" rows="2" maxlength="4000"></textarea></div>
+<div class="budget"><label for="budget">Prompt budget</label><div><span class="budget-value" id="budget-value">700</span> <small>local tokens</small></div><input type="range" id="budget" min="0" max="2" step="1" value="1"><div class="ticks"><span>300</span><span>700</span><span>1,200</span></div><p style="font-size:11px;color:var(--muted)">Includes instructions, your question, and source labels.</p></div></div>
+<div class="query-actions"><button class="primary" id="build">Build context ↗</button><span class="status" id="status" role="status" aria-live="polite"></span></div>
+</section>
+<div id="notice" class="error" role="alert" hidden></div>
+<section class="stats" aria-label="Context measurements">
+<div class="panel stat"><div class="title">Full-source baseline</div><div class="number" id="baseline">—</div><div class="hint">All eligible source + question</div></div>
+<div class="panel stat"><div class="title">Selected prompt</div><div class="number" id="selected">—</div><div class="hint" id="budget-hint">Within your budget</div></div>
+<div class="panel stat good"><div class="title">Local prompt reduction</div><div class="number" id="reduction">—</div><div class="hint">An estimate, not billed savings</div></div>
+<div class="panel stat" id="coverage-card"><div class="title">Known evidence retained</div><div class="number" id="coverage">—</div><div class="hint" id="coverage-hint">Source checks, not answer accuracy</div></div>
+</section>
+<section class="workspace" aria-label="Inspect selected source">
+<nav class="panel files" id="files" aria-label="Selected source excerpts"></nav>
+<div class="panel code-panel"><div class="code-head"><span class="code-name" id="code-name">Select a file</span><span class="line-label" id="line-label"></span></div><div class="reasons" id="reasons"></div><pre id="code" aria-label="Source code"></pre></div>
+<aside class="panel inspector"><h2>Evidence check</h2><p id="evidence-note"></p><ul class="evidence-list" id="evidence-list"></ul><div class="divider"></div><h2>Ready for your assistant</h2><p>Export exactly this question and selected source. No model call is made by this workbench.</p><button class="secondary" id="download">Download prompt</button><button class="secondary" id="copy">Copy prompt</button><div class="divider"></div><p id="scan-info"></p><p id="privacy">No source leaves this browser preview through a model request.</p></aside>
+</section>
+<section class="panel chart" aria-label="Evidence versus budget"><div class="chart-head"><h2>A smaller budget can lose important code.</h2><button class="secondary" id="report">Download evaluation</button></div><p id="sweep-note"></p><div class="sweeps" id="sweeps"></div></section>
+<footer>Counts use o200k_base. Codex adds its own context; model usage and billing can differ. Matching known code does not prove an AI answer is correct. Source fingerprint: <span id="fingerprint"></span></footer>
+</main>
+<script id="demo-data" type="application/json">__TOKEN_SAVER_DATA__</script>
+<script>
+"use strict";
+const data = JSON.parse(document.getElementById("demo-data").textContent);
+const byId = id => document.getElementById(id);
+const budgets = data.budgets;
+let current, activeFile = 0, requestNumber = 0;
+function notice(message) { byId("notice").textContent = message || ""; byId("notice").hidden = !message; }
+function download(name, text, type) {
+  const url = URL.createObjectURL(new Blob([text], { type: type || "text/plain" }));
+  const link = document.createElement("a"); link.href = url; link.download = name; link.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+function showFile(index) {
+  activeFile = index;
+  const excerpt = current.excerpts[index];
+  byId("code-name").textContent = excerpt ? excerpt.file : "No excerpt fits this budget";
+  byId("line-label").textContent = excerpt ? "Lines " + excerpt.startLine + "–" + excerpt.endLine : "";
+  byId("reasons").textContent = excerpt ? (current.selections[index].reasons.join(" · ") + (current.selections[index].truncated ? " · Partial excerpt" : "")) : "Increase the budget.";
+  byId("code").replaceChildren();
+  if (excerpt) excerpt.content.split("\n").forEach((text, offset) => {
+    const line = document.createElement("span"); line.className = "line";
+    const lineNumber = document.createElement("span"); lineNumber.className = "ln"; lineNumber.textContent = excerpt.startLine + offset;
+    const source = document.createElement("span"); source.className = "source"; source.textContent = text || " ";
+    const rules = current.evidence.evidence || [];
+    if (rules.some(rule => rule.file === excerpt.file && rule.retained && text.includes(rule.contains))) source.classList.add("match");
+    line.append(lineNumber, source); byId("code").append(line);
+  });
+  Array.from(byId("files").querySelectorAll("button")).forEach((button, i) => {
+    button.classList.toggle("active", i === index); button.setAttribute("aria-current", i === index ? "true" : "false");
+  });
+}
+function render(result) {
+  current = result; activeFile = 0;
+  byId("baseline").textContent = result.baselineTokens.toLocaleString();
+  byId("selected").textContent = result.promptTokens.toLocaleString();
+  byId("reduction").textContent = result.reductionPercent + "%";
+  byId("budget-hint").textContent = result.promptTokens <= result.budget ? "Within the " + result.budget + "-token budget" : "Budget exceeded";
+  const evidence = result.evidence;
+  byId("coverage").textContent = evidence.status === "unscored" ? "Unscored" : evidence.evidenceHits + " / " + evidence.evidenceTotal;
+  byId("coverage-card").classList.toggle("good", evidence.status === "retained");
+  byId("coverage-hint").textContent = evidence.status === "missing" ? "Some required evidence is missing" : "Source checks, not answer accuracy";
+  byId("evidence-note").textContent = evidence.note;
+  byId("evidence-list").replaceChildren();
+  (evidence.evidence || []).forEach(rule => {
+    const li = document.createElement("li"), status = document.createElement("span"), file = document.createElement("div"), code = document.createElement("code");
+    status.className = rule.retained ? "yes" : "no"; status.textContent = rule.retained ? "✓ Retained" : "! Missing";
+    file.textContent = rule.file; code.textContent = rule.contains; li.append(status, file, code); byId("evidence-list").append(li);
+  });
+  byId("files").replaceChildren();
+  const label = document.createElement("div"); label.className = "section-label"; label.textContent = "Selected excerpts · " + result.excerpts.length; byId("files").append(label);
+  result.excerpts.forEach((excerpt, i) => {
+    const button = document.createElement("button"); button.className = "file"; button.textContent = excerpt.file;
+    const lines = document.createElement("span"); lines.textContent = "Lines " + excerpt.startLine + "–" + excerpt.endLine;
+    button.append(lines); button.addEventListener("click", () => showFile(i)); byId("files").append(button);
+  });
+  showFile(0);
+  const skipped = Object.entries(result.skipped).map(([reason, count]) => count + " " + reason).join(", ");
+  byId("scan-info").textContent = result.scannedFiles + " readable files scanned." + (skipped ? " Excluded: " + skipped + "." : "");
+  byId("fingerprint").textContent = result.sourceFingerprint.slice(0, 16);
+  byId("status").textContent = data.mode === "replay" ? "Recorded offline context result · no AI answer simulated" : "Local scan complete · no model request";
+  notice(result.warnings.join(" "));
+  renderSweeps();
+}
+function renderSweeps() {
+  byId("sweeps").replaceChildren();
+  const stale = data.evaluation && data.evaluation.sourceFingerprint !== current.sourceFingerprint;
+  byId("report").disabled = !data.evaluation || Boolean(stale);
+  if (stale) { byId("sweep-note").textContent = "Source changed since launch. Restart the demo or rerun evaluate to refresh the budget comparison."; return; }
+  byId("sweep-note").textContent = data.evaluation
+    ? "All six authored demo questions: how many retain every required file and code fragment? This is a retrieval check, not an AI accuracy score."
+    : "No labeled dataset is attached to this project. Use evaluate --cases to measure evidence retention.";
+  if (!data.evaluation) return;
+  data.evaluation.runs.forEach(run => {
+    const card = document.createElement("div"); card.className = "sweep" + (run.budget === current.budget ? " active" : "");
+    const label = document.createElement("b"); label.textContent = run.budget.toLocaleString() + " tokens";
+    const bar = document.createElement("div"); bar.className = "bar"; const fill = document.createElement("i");
+    fill.style.width = (run.passedCases / run.totalCases * 100) + "%"; bar.append(fill);
+    const detail = document.createElement("small"); detail.textContent = run.passedCases + "/" + run.totalCases + " cases retain all expected evidence";
+    card.append(label, bar, detail); byId("sweeps").append(card);
+  });
+}
+async function build() {
+  const question = byId("question").value.trim(), budget = budgets[Number(byId("budget").value)];
+  if (!question) { notice("Enter a question about the project."); return; }
+  const number = ++requestNumber; byId("build").disabled = true; notice("");
+  try {
+    let result;
+    if (data.mode === "replay") {
+      result = data.frames.find(frame => frame.question === question && frame.budget === budget);
+      if (!result) throw new Error("This standalone replay contains six recorded questions. Select a preset, or run token-saver demo for custom questions.");
+    } else {
+      const response = await fetch("/api/context", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ question, budget }) });
+      const value = await response.json(); if (!response.ok) throw new Error(value.error || "Could not build context."); result = value;
+    }
+    if (number === requestNumber) render(result);
+  } catch (error) { notice(error.message); byId("status").textContent = "Context was not updated."; }
+  finally { if (number === requestNumber) byId("build").disabled = false; }
+}
+data.questions.forEach(question => { const option = document.createElement("option"); option.value = question; option.textContent = question; byId("preset").append(option); });
+byId("question").value = data.questions[0] || "";
+byId("preset").addEventListener("change", () => { byId("question").value = byId("preset").value; build(); });
+byId("budget").addEventListener("input", () => { byId("budget-value").textContent = budgets[Number(byId("budget").value)].toLocaleString(); });
+byId("budget").addEventListener("change", build);
+byId("build").addEventListener("click", build);
+byId("download").addEventListener("click", () => current && download("token-saver-context.txt", current.prompt));
+byId("report").disabled = !data.evaluation;
+byId("report").addEventListener("click", () => data.evaluation && download("token-saver-evaluation.json", JSON.stringify(data.evaluation, null, 2), "application/json"));
+byId("copy").addEventListener("click", async () => {
+  if (!current) return;
+  try { await navigator.clipboard.writeText(current.prompt); byId("status").textContent = "Selected prompt copied."; }
+  catch { notice("Clipboard is unavailable in this browser. Use Download prompt."); }
+});
+byId("mode-note").textContent = data.mode === "replay"
+  ? "Standalone demo · six recorded context queries. Opens offline with no account, server, or build. Custom questions need the local app."
+  : "Live local workbench · " + data.project + ". Your project stays on this computer. This screen makes no model calls.";
+byId("privacy").textContent = data.mode === "replay" ? "Only the bundled public demo source is included in this file." : "The server listens on 127.0.0.1 and scans only the project selected when it starts.";
+if (data.initial) render(data.initial); else build();
+</script>
+</body></html>

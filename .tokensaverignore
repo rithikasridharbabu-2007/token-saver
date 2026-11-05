@@ -1,0 +1,7 @@
+# Additional gitignore-style exclusions for context selection.
+# Sensitive names and generated dependency/build folders are always excluded.
+# Add private project-specific paths here before using ask.
+# For example:
+# customer-data/
+# internal-notes.md
+preview.html
